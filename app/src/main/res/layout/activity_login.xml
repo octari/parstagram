@@ -46,4 +46,10 @@
         android:text="Login"
         tools:layout_editor_absoluteX="154dp"
         tools:layout_editor_absoluteY="189dp" />
+
+    <Button
+        android:id="@+id/btnSignUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SignUp" />
 </LinearLayout>
