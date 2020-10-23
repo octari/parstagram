@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnCaptureImage;
     private ImageView ivPostImage;
     private Button btnSubmit;
+    private Button btnLogout;
     private File photoFile;
     public String photoFileName = "photo.jpg";
 
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         btnCaptureImage = findViewById(R.id.btnCaptureImage);
         ivPostImage = findViewById(R.id.ivPostImage);
         btnSubmit = findViewById(R.id.btnSubmit);
+        btnLogout = findViewById(R.id.btnLogout);
 
         btnCaptureImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,8 +57,19 @@ public class MainActivity extends AppCompatActivity {
                 launchCamera();
             }
         });
-        
+
 //        queryPost();
+
+        btnLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ParseUser.logOut();
+                ParseUser currentUser = ParseUser.getCurrentUser();
+
+                goToLogin();
+            }
+        });
+
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
                 savePost(description, currentUser, photoFile);
             }
         });
+    }
+
+    private void goToLogin() {
+        Intent i = new Intent(this, LoginActivity.class);
+        startActivity(i);
     }
 
     private void launchCamera() {
@@ -139,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 if (e!=null){
                     Toast.makeText(MainActivity.this, "Error while saving", Toast.LENGTH_SHORT).show();
                 }
+                Log.i(TAG, "Post save was successful!");
                 etDescription.setText("");
                 ivPostImage.setImageResource(0);
             }
@@ -156,8 +175,7 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
                 for (Post post: posts) {
-
-
+                    Log.i(TAG, "Posts "+ post.getDescription() + ", username: " + post.getUser());
                 }
             }
         });
